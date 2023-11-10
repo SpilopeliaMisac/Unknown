@@ -41,174 +41,190 @@
 // 本例程是开源库空工程 可用作移植或者测试各类内外设
 
 // **************************** 代码区域 ****************************
+static short    dir_num,speed,
+                
+                state = 0,                 //状态
 
-short angle_num=800,speed=2000,temp;
-const short middle_angle_num=833,def_speed=2000;        //1050;800;610
+                loop_delay;
+
+const short     middle_dir_defa=390,                        //dir1:1040:835:630 dir2:600:390:180    .       
+                left_dir_limit= 600,right_dir_limit= 180,   
+                left_dir_defa = 510,right_dir_defa = 270,   //左右转默认中值
+
+                loop_delay_defa = 40,
+
+                speed_defa=1900;
+
+const float     loop_dete = 0.3;
 
 struct Adc_struct
 {
-    unsigned short  LeftHori,RightHori,                 //电感值
+    unsigned short  LeftHori,RightHori,                     //电感值
                     LeftVert,RightVert,
 
-                    HoriMax,HoriMin,
-                    VertMax,VertMin,
+                    LeftHori_value,RightHori_value;         //暂时没用到
 
-                    LeftHori_Max,RightHori_Max,
-                    LeftVert_Max,RightVert_Max,
+    float           Hori_Err,Hori_Err_pre,Hori_Err_sum;
 
-                    LeftHori_Min,RightHori_Min,
-                    LeftVert_Min,RightVert_Min;
 
-    float           Err,Err_pre,
-                    LeftHori_value,RightHori_value,     //二值化的值
-                    LeftVert_value,RightVert_value;
-
-    bool            temp1,temp2;
 }Adc;
 
-unsigned short test1()   //转弯，临时
+void ips_show()
 {
-    const unsigned short A=1200,B=1000,C=200;
-    static float temp1;
+    ips200_show_int(120,0,state,1);
 
-    temp1 = (A*Adc.Err + B*(Adc.Err - Adc.Err_pre)) + middle_angle_num;
-    Adc.Err_pre = Adc.Err;
+    ips200_show_string(0,0,"LH");
+    ips200_show_int(60,0,Adc.LeftHori,5);
 
-    temp1 = (temp1 > 1040)?1040:temp1;
-    temp1 = (temp1 < 630)?630:temp1;
+    ips200_show_string(0,20,"RH");
+    ips200_show_int(60,20,Adc.RightHori,5);
 
-    //speed = (Adc.Err > 0)?(C*Adc.Err + def_speed):(-C*Adc.Err + def_speed);
+    ips200_show_string(0,40,"HoriErr");
+    ips200_show_int(60,40,Adc.Hori_Err*100,5);
 
-    return (short)temp1;
-}
+    ips200_show_string(0,60,"LV");
+    ips200_show_int(60,60,Adc.LeftVert,5);
 
-//获取电感最大值和最小值
-void get_MaxMin_Adc()
-{
-    Adc.LeftHori_Max = (Adc.LeftHori >= Adc.LeftHori_Max)?Adc.LeftHori:Adc.LeftHori_Max;
-    Adc.LeftHori_Min = (Adc.LeftHori <= Adc.LeftHori_Min)?Adc.LeftHori:Adc.LeftHori_Min;
+    ips200_show_string(0,80,"RV");
+    ips200_show_int(60,80,Adc.RightVert,5);
 
-    Adc.LeftVert_Max = (Adc.LeftVert >= Adc.LeftVert_Max)?Adc.LeftVert:Adc.LeftVert_Max;
-    Adc.LeftVert_Min = (Adc.LeftVert <= Adc.LeftVert_Min)?Adc.LeftVert:Adc.LeftVert_Min;
+    ips200_show_string(0,120,"CurveD");
+    ips200_show_int(60,120,loop_delay,10);
 
-    Adc.RightHori_Max = (Adc.RightHori >= Adc.RightHori_Max)?Adc.RightHori:Adc.RightHori_Max;
-    Adc.RightHori_Min = (Adc.RightHori <= Adc.RightHori_Min)?Adc.RightHori:Adc.RightHori_Min;
+    ips200_show_string(0,160,"DirNum");
+    ips200_show_int(60,160,dir_num,3);
 
-    Adc.RightVert_Max = (Adc.RightVert >= Adc.RightVert_Max)?Adc.RightVert:Adc.RightVert_Max;
-    Adc.RightVert_Min = (Adc.RightVert <= Adc.RightVert_Min)?Adc.RightVert:Adc.RightVert_Min;
+
+
 
 }
 
-//二值化 以及 求差比和
+//得到电感值
+void get_Adc()
+{
+    Adc.LeftHori  = adc_mean_filter_convert(ADC0_CH4_A4,8);
+    Adc.RightHori = adc_mean_filter_convert(ADC0_CH7_A7,8);
+    Adc.LeftVert  = adc_mean_filter_convert(ADC0_CH5_A5,8);
+    Adc.RightVert = adc_mean_filter_convert(ADC0_CH6_A6,8);
+
+    // Adc.LeftHori_value  = Adc.LeftHori / 4095.0;
+    // Adc.RightHori_value = Adc.RightHori / 4095.0;
+}
+
+//水平电感差和比
 void get_Adc_Err()
 {
-    Adc.LeftHori_value =    1.0*(Adc.LeftHori - Adc.LeftHori_Min)/(Adc.LeftHori_Max - Adc.LeftHori_Min);
-    Adc.RightHori_value =   1.0*(Adc.RightHori - Adc.RightHori_Min)/( Adc.RightHori_Max - Adc.RightHori_Min);
-
-    Adc.LeftVert_value =    1.0*(Adc.LeftVert - Adc.LeftVert_Min)/(Adc.LeftVert_Max - Adc.LeftVert_Min);
-    Adc.RightVert_value =   1.0*(Adc.RightVert - Adc.RightVert_Min)/(Adc.RightVert_Max - Adc.RightVert_Min);
-
-    Adc.temp1 = Adc.LeftVert_value;
-    Adc.temp2 = Adc.RightVert_value;
-
-    Adc.Err = (Adc.LeftHori_value - Adc.RightHori_value)/(Adc.LeftHori_value + Adc.RightHori_value);
+    Adc.Hori_Err = 1.0 * (Adc.LeftHori - Adc.RightHori)/(Adc.LeftHori + Adc.RightHori); //一般情况下<0.4
 }
 
-
-void Speed_Cont(unsigned short speed_targ)
+//状态判断
+unsigned short state_judge()
 {
-    if(speed_targ > speed){speed++;}
-    else{speed--;}
-    speed = (speed > 3000)?3000:speed;
+    static short output;
+    if((Adc.Hori_Err < loop_dete) && (Adc.Hori_Err > -loop_dete))
+    {
+        if((Adc.LeftVert > 200)&&(Adc.LeftVert < 500)&&(Adc.RightVert > 1200)&&(Adc.RightVert < 1500))
+            {loop_delay = loop_delay_defa;output = 3;}
+        else if((Adc.LeftVert > 1200)&&(Adc.LeftVert < 1500)&&(Adc.RightVert > 200)&&(Adc.RightVert < 500))
+            {loop_delay = loop_delay_defa;output = 4;}
+    }
+//    else if(Adc.Hori_Err > 0.3) {output = 1;}
+//    else if(Adc.Hori_Err < -0.3){output = 2;}
+    else{output = 0;}
+    return output;
+}
+
+void dir_limit()
+{
+    dir_num = (dir_num >= left_dir_limit)?  left_dir_limit:dir_num;
+    dir_num = (dir_num <= right_dir_limit)? right_dir_limit:dir_num;
+}
+
+void straight_way_control()
+{
+    const short P = 300, I = 0, D = 250;
+    static float temp1;
+    Adc.Hori_Err_sum += Adc.Hori_Err;
+    temp1 =P * Adc.Hori_Err + 1.0*I * Adc.Hori_Err_sum + 1.0*D * (Adc.Hori_Err - Adc.Hori_Err_pre) + middle_dir_defa;
+    dir_num = (short)temp1;
+    Adc.Hori_Err_pre = Adc.Hori_Err;
+}
+
+void left_curve_control()
+{
+    
+
+}
+
+void left_loop_control()
+{
+    dir_num = 550;
+    if(loop_delay >0) {loop_delay--;state = 3;}
+    else               {state = 0;}
+}
+
+void right_loop_control()
+{
+    dir_num = 230;
+    if(loop_delay >0) {loop_delay--;state = 4;}
+    else               {state = 0;}
 }
 
 
 int core0_main(void)
 {
-    clock_init();                               // 获取时钟频率<务必保留>
-    debug_init();                               // 初始化默认调试串口
+    clock_init();                   // 获取时钟频率<务必保留>
+    debug_init();                   // 初始化默认调试串口
+    // 此处编写用户代码 例如外设初始化代码等
 
 
     pwm_init(ATOM0_CH1_P33_9, 50, 1000);        //舵机初始化
-    pwm_init(ATOM0_CH6_P02_6, 17000, 1000);     //电机初始化
+    pwm_init(ATOM0_CH7_P02_7, 17000, 1000);     //电机初始化
 
-    //gpio_init(P02_6, GPO, 0, GPO_PUSH_PULL);
 
-    adc_init(ADC0_CH4_A4, ADC_8BIT);            //左电感初始化
-    adc_init(ADC0_CH7_A7, ADC_8BIT);            //右
-    adc_init(ADC0_CH5_A5, ADC_8BIT);
-    adc_init(ADC0_CH6_A6, ADC_8BIT);
+    adc_init(ADC0_CH4_A4, ADC_12BIT);            //左电感初始化
+    adc_init(ADC0_CH7_A7, ADC_12BIT);            //右
+    adc_init(ADC0_CH5_A5, ADC_12BIT);
+    adc_init(ADC0_CH6_A6, ADC_12BIT);
 
 
     ips200_init(IPS200_TYPE_PARALLEL8);
     ips200_clear();
 
-    Adc.LeftHori_Max = 200;
-    Adc.RightHori_Max =200;
-    Adc.LeftHori_Min = 50;
-    Adc.RightHori_Min = 50;
+    Adc.Hori_Err_sum = 0;
+    Adc.Hori_Err_pre = 0;
+    dir_num = middle_dir_defa;
+    speed   = speed_defa;
 
-
-    Adc.LeftVert_Max = 100;
-    Adc.RightVert_Max = 100;
-    Adc.LeftVert_Min = 100;
-    Adc.RightVert_Min = 100;
-
-
-    //gpio_init(P00_0, GPO, 1, GPO_PUSH_PULL);
-    //gpio_init(P33_10, GPO, 0, GPO_PUSH_PULL);
-    //gpio_init(P02_6, GPO, 1, GPO_PUSH_PULL);
-
-
+    // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
     while (TRUE)
     {
         // 此处编写需要循环执行的代码
-
-
-        Adc.LeftHori  = adc_mean_filter_convert(ADC0_CH4_A4,5);  //左右电感采集
-        Adc.RightHori = adc_mean_filter_convert(ADC0_CH7_A7,5);
-        Adc.LeftVert = adc_mean_filter_convert(ADC0_CH5_A5,5);  //181 147 38  76  179
-        Adc.RightVert = adc_mean_filter_convert(ADC0_CH6_A6,5); //126 16  115 207 225
-
-
-
-        get_MaxMin_Adc();
+        
+        get_Adc();
         get_Adc_Err();
-        angle_num =test1();            //转弯
 
-        if((Adc.LeftHori < 20) && (Adc.RightHori < 20)){speed = 20;}
+        if(!state)
+        {
+            straight_way_control();
+            state = state_judge();
+        }
 
-        pwm_set_duty(ATOM0_CH1_P33_9, angle_num);           //舵机
+        switch (state)
+        {
+            case 3: left_loop_control();   break;
 
+            case 4: right_loop_control();  break;
 
-        pwm_set_duty(ATOM0_CH6_P02_6, speed);                //转速
+            default:                        break;
+        }
 
-        //gpio_set_level(P02_6, 1);
-
-        //if((!Adc.temp1)*Adc.temp2 + Adc.temp1*(!Adc.temp2))
-
-
-        ips200_show_string(0,0,"LeftH");
-        ips200_show_int(60,0,Adc.LeftHori,5);
-        ips200_show_int(120,0,Adc.LeftHori_value*100,5);
-
-        ips200_show_string(0,20,"RightH");
-        ips200_show_int(60,20,Adc.RightHori,5);
-        ips200_show_int(120,20,Adc.RightHori_value*100,5);
-
-        ips200_show_string(0,40,"LeftV");
-        ips200_show_int(60,40,Adc.LeftVert,5);
-        ips200_show_int(120,40,Adc.LeftVert_value*100,5);
-
-        ips200_show_string(0,60,"RightV");
-        ips200_show_int(60,60,Adc.RightVert,5);
-        ips200_show_int(120,60,Adc.RightVert_value*100,5);
-
-        ips200_show_string(0,80,"temp2");
-        ips200_show_int(60,80,(!Adc.temp1)*Adc.temp2 + Adc.temp1*(!Adc.temp2),5);
-
-
+        dir_limit();
+//        if((Adc.LeftHori < 150) && (Adc.RightHori < 150)){speed = 20;}
+        pwm_set_duty(ATOM0_CH1_P33_9,dir_num);          //舵机
+        pwm_set_duty(ATOM0_CH7_P02_7,1800);            //转速
+        ips_show();
 
         // 此处编写需要循环执行的代码
     }
