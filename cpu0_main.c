@@ -47,15 +47,16 @@ static short    dir_num,speed,
 
                 loop_delay;
 
-const short     middle_dir_defa=390,                        //dir1:1040:835:630 dir2:600:390:180    .       
+const short     middle_dir_defa=390,                        //车1:1040:835:630 车2:600:390:180
                 left_dir_limit= 600,right_dir_limit= 180,   
-                left_dir_defa = 510,right_dir_defa = 270,   //左右转默认中值
+                left_dir_defa = 510,right_dir_defa = 270,   //左右转默认中值,暂时没用到
 
-                loop_delay_defa = 40,
+                loop_delay_defa = 30,                       //环岛状态持续时间
+                loop_control_argA = 6,
 
                 speed_defa=1900;
 
-const float     loop_dete = 0.3;
+const float     loop_judge = 0.3;                           //Hori_Err绝对值小于该值时尝试环岛判断
 
 struct Adc_struct
 {
@@ -121,16 +122,16 @@ void get_Adc_Err()
 unsigned short state_judge()
 {
     static short output;
-    if((Adc.Hori_Err < loop_dete) && (Adc.Hori_Err > -loop_dete))
+    if((Adc.Hori_Err < loop_judge) && (Adc.Hori_Err > -loop_judge))
     {
         if((Adc.LeftVert > 200)&&(Adc.LeftVert < 500)&&(Adc.RightVert > 1200)&&(Adc.RightVert < 1500))
             {loop_delay = loop_delay_defa;output = 3;}
         else if((Adc.LeftVert > 1200)&&(Adc.LeftVert < 1500)&&(Adc.RightVert > 200)&&(Adc.RightVert < 500))
             {loop_delay = loop_delay_defa;output = 4;}
     }
-//    else if(Adc.Hori_Err > 0.3) {output = 1;}
-//    else if(Adc.Hori_Err < -0.3){output = 2;}
-    else{output = 0;}
+    else if(Adc.Hori_Err > 0.3) {output = 1;}
+    else if(Adc.Hori_Err < -0.3){output = 2;}
+    else                        {output = 0;}
     return output;
 }
 
@@ -158,16 +159,16 @@ void left_curve_control()
 
 void left_loop_control()
 {
-    dir_num = 550;
+    dir_num = left_dir_limit - loop_control_argA * loop_delay;
     if(loop_delay >0) {loop_delay--;state = 3;}
-    else               {state = 0;}
+    else              {state = 0;}
 }
 
 void right_loop_control()
 {
-    dir_num = 230;
+    dir_num = right_dir_limit + loop_control_argA * loop_delay;
     if(loop_delay >0) {loop_delay--;state = 4;}
-    else               {state = 0;}
+    else              {state = 0;}
 }
 
 
@@ -175,7 +176,6 @@ int core0_main(void)
 {
     clock_init();                   // 获取时钟频率<务必保留>
     debug_init();                   // 初始化默认调试串口
-    // 此处编写用户代码 例如外设初始化代码等
 
 
     pwm_init(ATOM0_CH1_P33_9, 50, 1000);        //舵机初始化
@@ -196,11 +196,9 @@ int core0_main(void)
     dir_num = middle_dir_defa;
     speed   = speed_defa;
 
-    // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
     while (TRUE)
     {
-        // 此处编写需要循环执行的代码
         
         get_Adc();
         get_Adc_Err();
@@ -221,12 +219,12 @@ int core0_main(void)
         }
 
         dir_limit();
-//        if((Adc.LeftHori < 150) && (Adc.RightHori < 150)){speed = 20;}
+        if((Adc.LeftHori < 150) && (Adc.RightHori < 150)){speed = 20;}
         pwm_set_duty(ATOM0_CH1_P33_9,dir_num);          //舵机
         pwm_set_duty(ATOM0_CH7_P02_7,1800);            //转速
         ips_show();
 
-        // 此处编写需要循环执行的代码
+
     }
 }
 
