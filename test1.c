@@ -1,73 +1,73 @@
 /*********************************************************************************************************************
-* TC264 Opensourec Library ¼´£¨TC264 ¿ªÔ´¿â£©ÊÇÒ»¸ö»ùÓÚ¹Ù·½ SDK ½Ó¿ÚµÄµÚÈı·½¿ªÔ´¿â
-* Copyright (c) 2022 SEEKFREE Öğ·É¿Æ¼¼
+* TC264 Opensourec Library å³ï¼ˆTC264 å¼€æºåº“ï¼‰æ˜¯ä¸€ä¸ªåŸºäºå®˜æ–¹ SDK æ¥å£çš„ç¬¬ä¸‰æ–¹å¼€æºåº“
+* Copyright (c) 2022 SEEKFREE é€é£ç§‘æŠ€
 *
-* ±¾ÎÄ¼şÊÇ TC264 ¿ªÔ´¿âµÄÒ»²¿·Ö
+* æœ¬æ–‡ä»¶æ˜¯ TC264 å¼€æºåº“çš„ä¸€éƒ¨åˆ†
 *
-* TC264 ¿ªÔ´¿â ÊÇÃâ·ÑÈí¼ş
-* Äú¿ÉÒÔ¸ù¾İ×ÔÓÉÈí¼ş»ù½ğ»á·¢²¼µÄ GPL£¨GNU General Public License£¬¼´ GNUÍ¨ÓÃ¹«¹²Ğí¿ÉÖ¤£©µÄÌõ¿î
-* ¼´ GPL µÄµÚ3°æ£¨¼´ GPL3.0£©»ò£¨ÄúÑ¡ÔñµÄ£©ÈÎºÎºóÀ´µÄ°æ±¾£¬ÖØĞÂ·¢²¼ºÍ/»òĞŞ¸ÄËü
+* TC264 å¼€æºåº“ æ˜¯å…è´¹è½¯ä»¶
+* æ‚¨å¯ä»¥æ ¹æ®è‡ªç”±è½¯ä»¶åŸºé‡‘ä¼šå‘å¸ƒçš„ GPLï¼ˆGNU General Public Licenseï¼Œå³ GNUé€šç”¨å…¬å…±è®¸å¯è¯ï¼‰çš„æ¡æ¬¾
+* å³ GPL çš„ç¬¬3ç‰ˆï¼ˆå³ GPL3.0ï¼‰æˆ–ï¼ˆæ‚¨é€‰æ‹©çš„ï¼‰ä»»ä½•åæ¥çš„ç‰ˆæœ¬ï¼Œé‡æ–°å‘å¸ƒå’Œ/æˆ–ä¿®æ”¹å®ƒ
 *
-* ±¾¿ªÔ´¿âµÄ·¢²¼ÊÇÏ£ÍûËüÄÜ·¢»Ó×÷ÓÃ£¬µ«²¢Î´¶ÔÆä×÷ÈÎºÎµÄ±£Ö¤
-* ÉõÖÁÃ»ÓĞÒşº¬µÄÊÊÏúĞÔ»òÊÊºÏÌØ¶¨ÓÃÍ¾µÄ±£Ö¤
-* ¸ü¶àÏ¸½ÚÇë²Î¼û GPL
+* æœ¬å¼€æºåº“çš„å‘å¸ƒæ˜¯å¸Œæœ›å®ƒèƒ½å‘æŒ¥ä½œç”¨ï¼Œä½†å¹¶æœªå¯¹å…¶ä½œä»»ä½•çš„ä¿è¯
+* ç”šè‡³æ²¡æœ‰éšå«çš„é€‚é”€æ€§æˆ–é€‚åˆç‰¹å®šç”¨é€”çš„ä¿è¯
+* æ›´å¤šç»†èŠ‚è¯·å‚è§ GPL
 *
-* ÄúÓ¦¸ÃÔÚÊÕµ½±¾¿ªÔ´¿âµÄÍ¬Ê±ÊÕµ½Ò»·İ GPL µÄ¸±±¾
-* Èç¹ûÃ»ÓĞ£¬Çë²ÎÔÄ<https://www.gnu.org/licenses/>
+* æ‚¨åº”è¯¥åœ¨æ”¶åˆ°æœ¬å¼€æºåº“çš„åŒæ—¶æ”¶åˆ°ä¸€ä»½ GPL çš„å‰¯æœ¬
+* å¦‚æœæ²¡æœ‰ï¼Œè¯·å‚é˜…<https://www.gnu.org/licenses/>
 *
-* ¶îÍâ×¢Ã÷£º
-* ±¾¿ªÔ´¿âÊ¹ÓÃ GPL3.0 ¿ªÔ´Ğí¿ÉÖ¤Ğ­Òé ÒÔÉÏĞí¿ÉÉêÃ÷ÎªÒëÎÄ°æ±¾
-* Ğí¿ÉÉêÃ÷Ó¢ÎÄ°æÔÚ libraries/doc ÎÄ¼ş¼ĞÏÂµÄ GPL3_permission_statement.txt ÎÄ¼şÖĞ
-* Ğí¿ÉÖ¤¸±±¾ÔÚ libraries ÎÄ¼ş¼ĞÏÂ ¼´¸ÃÎÄ¼ş¼ĞÏÂµÄ LICENSE ÎÄ¼ş
-* »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò µ«ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷£¨¼´±¾ÉùÃ÷£©
+* é¢å¤–æ³¨æ˜ï¼š
+* æœ¬å¼€æºåº“ä½¿ç”¨ GPL3.0 å¼€æºè®¸å¯è¯åè®® ä»¥ä¸Šè®¸å¯ç”³æ˜ä¸ºè¯‘æ–‡ç‰ˆæœ¬
+* è®¸å¯ç”³æ˜è‹±æ–‡ç‰ˆåœ¨ libraries/doc æ–‡ä»¶å¤¹ä¸‹çš„ GPL3_permission_statement.txt æ–‡ä»¶ä¸­
+* è®¸å¯è¯å‰¯æœ¬åœ¨ libraries æ–‡ä»¶å¤¹ä¸‹ å³è¯¥æ–‡ä»¶å¤¹ä¸‹çš„ LICENSE æ–‡ä»¶
+* æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åº ä½†ä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ï¼ˆå³æœ¬å£°æ˜ï¼‰
 *
-* ÎÄ¼şÃû³Æ          cpu0_main
-* ¹«Ë¾Ãû³Æ          ³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
-* °æ±¾ĞÅÏ¢          ²é¿´ libraries/doc ÎÄ¼ş¼ĞÄÚ version ÎÄ¼ş °æ±¾ËµÃ÷
-* ¿ª·¢»·¾³          ADS v1.9.4
-* ÊÊÓÃÆ½Ì¨          TC264D
-* µêÆÌÁ´½Ó          https://seekfree.taobao.com/
+* æ–‡ä»¶åç§°          cpu0_main
+* å…¬å¸åç§°          æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+* ç‰ˆæœ¬ä¿¡æ¯          æŸ¥çœ‹ libraries/doc æ–‡ä»¶å¤¹å†… version æ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
+* å¼€å‘ç¯å¢ƒ          ADS v1.9.4
+* é€‚ç”¨å¹³å°          TC264D
+* åº—é“ºé“¾æ¥          https://seekfree.taobao.com/
 *
-* ĞŞ¸Ä¼ÇÂ¼
-* ÈÕÆÚ              ×÷Õß                ±¸×¢
+* ä¿®æ”¹è®°å½•
+* æ—¥æœŸ              ä½œè€…                å¤‡æ³¨
 * 2022-09-15       pudding            first version
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #pragma section all "cpu0_dsram"
-// ½«±¾Óï¾äÓë#pragma section all restoreÓï¾äÖ®¼äµÄÈ«¾Ö±äÁ¿¶¼·ÅÔÚCPU0µÄRAMÖĞ
+// å°†æœ¬è¯­å¥ä¸#pragma section all restoreè¯­å¥ä¹‹é—´çš„å…¨å±€å˜é‡éƒ½æ”¾åœ¨CPU0çš„RAMä¸­
 
-// ±¾Àı³ÌÊÇ¿ªÔ´¿â¿Õ¹¤³Ì ¿ÉÓÃ×÷ÒÆÖ²»òÕß²âÊÔ¸÷ÀàÄÚÍâÉè
-// ±¾Àı³ÌÊÇ¿ªÔ´¿â¿Õ¹¤³Ì ¿ÉÓÃ×÷ÒÆÖ²»òÕß²âÊÔ¸÷ÀàÄÚÍâÉè
-// ±¾Àı³ÌÊÇ¿ªÔ´¿â¿Õ¹¤³Ì ¿ÉÓÃ×÷ÒÆÖ²»òÕß²âÊÔ¸÷ÀàÄÚÍâÉè
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç©ºå·¥ç¨‹ å¯ç”¨ä½œç§»æ¤æˆ–è€…æµ‹è¯•å„ç±»å†…å¤–è®¾
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç©ºå·¥ç¨‹ å¯ç”¨ä½œç§»æ¤æˆ–è€…æµ‹è¯•å„ç±»å†…å¤–è®¾
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç©ºå·¥ç¨‹ å¯ç”¨ä½œç§»æ¤æˆ–è€…æµ‹è¯•å„ç±»å†…å¤–è®¾
 
-// **************************** ´úÂëÇøÓò ****************************
+// **************************** ä»£ç åŒºåŸŸ ****************************
 static short    dir_num,speed,
                 
-                state = 0,          //×´Ì¬
+                state = 0,          //çŠ¶æ€
 
                 delay;
 
-static bool     loop_ready;         //»·µºÔ¤ÅĞ¶Ï
+static bool     loop_ready;         //ç¯å²›é¢„åˆ¤æ–­
 
-const short     middle_dir_defa=390,                        //³µ1:1040:835:630 ³µ2:600:390:180
+const short     middle_dir_defa=390,                        //è½¦1:1040:835:630 è½¦2:600:390:180
                 left_dir_limit= 600,right_dir_limit= 180,   
-                left_dir_defa = 510,right_dir_defa = 270,   //×óÓÒ×ªÄ¬ÈÏÖĞÖµ,ÔİÊ±Ã»ÓÃµ½
+                left_dir_defa = 510,right_dir_defa = 270,   //å·¦å³è½¬é»˜è®¤ä¸­å€¼,æš‚æ—¶æ²¡ç”¨åˆ°
                 curve_delay_defa = 2,
 
-                loop_delay_defa = 40,                       //»·µº×´Ì¬³ÖĞøÊ±¼ä
-                loop_ready_defa = 20,                       //»·µºÔ¤ÅĞ¶Ï³ÖĞøÊ±¼ä
+                loop_delay_defa = 40,                       //ç¯å²›çŠ¶æ€æŒç»­æ—¶é—´
+                loop_ready_defa = 20,                       //ç¯å²›é¢„åˆ¤æ–­æŒç»­æ—¶é—´
 
                 speed_defa=2000;
 
-const float     loop_judge = 0.2,                           //Hori_Err¾ø¶ÔÖµĞ¡ÓÚ¸ÃÖµÊ±³¢ÊÔ»·µºÅĞ¶Ï
+const float     loop_judge = 0.2,                           //Hori_Errç»å¯¹å€¼å°äºè¯¥å€¼æ—¶å°è¯•ç¯å²›åˆ¤æ–­
                 curve_judge= 0.6;
 
 struct Adc_struct
 {
-    unsigned short  LeftHori,RightHori,                     //µç¸ĞÖµ
+    unsigned short  LeftHori,RightHori,                     //ç”µæ„Ÿå€¼
                     LeftVert,RightVert,
 
-                    LeftHori_value,RightHori_value;         //ÔİÊ±Ã»ÓÃµ½
+                    LeftHori_value,RightHori_value;         //æš‚æ—¶æ²¡ç”¨åˆ°
 
     float           Hori_Err,Hori_Err_pre,Hori_Err_sum;
 
@@ -105,7 +105,7 @@ void ips_show()
 
 }
 
-//µÃµ½µç¸ĞÖµ
+//å¾—åˆ°ç”µæ„Ÿå€¼
 void Adc_get()
 {
     Adc.LeftHori  = adc_mean_filter_convert(ADC0_CH4_A4,8);
@@ -114,13 +114,13 @@ void Adc_get()
     Adc.RightVert = adc_mean_filter_convert(ADC0_CH6_A6,8);
 }
 
-//Ë®Æ½µç¸Ğ²îºÍ±È
+//æ°´å¹³ç”µæ„Ÿå·®å’Œæ¯”
 void Adc_handle()
 {
-    Adc.Hori_Err = 1.0 * (Adc.LeftHori - Adc.RightHori)/(Adc.LeftHori + Adc.RightHori); //Ò»°ãÇé¿öÏÂ<0.4
+    Adc.Hori_Err = 1.0 * (Adc.LeftHori - Adc.RightHori)/(Adc.LeftHori + Adc.RightHori); //ä¸€èˆ¬æƒ…å†µä¸‹<0.4
 }
 
-//×´Ì¬ÅĞ¶Ï
+//çŠ¶æ€åˆ¤æ–­
 unsigned short state_judge()
 {
     static short output;
@@ -179,7 +179,7 @@ void right_curve_control()
 
 void left_loop_control()
 {
-    dir_num = 600 + 150 * Adc.Hori_Err;     //ÄæÊ±Õë·½ÏòÊ±Ëü±ØĞëÊÇ600
+    dir_num = 600 + 150 * Adc.Hori_Err;     //é€†æ—¶é’ˆæ–¹å‘æ—¶å®ƒå¿…é¡»æ˜¯600
     state = (delay-- > 0)?3:0;
 }
 
@@ -192,23 +192,23 @@ void right_loop_control()
 
 int core0_main(void)
 {
-    clock_init();                   // »ñÈ¡Ê±ÖÓÆµÂÊ<Îñ±Ø±£Áô>
-    debug_init();                   // ³õÊ¼»¯Ä¬ÈÏµ÷ÊÔ´®¿Ú
+    clock_init();                   // è·å–æ—¶é’Ÿé¢‘ç‡<åŠ¡å¿…ä¿ç•™>
+    debug_init();                   // åˆå§‹åŒ–é»˜è®¤è°ƒè¯•ä¸²å£
 
 
-    pwm_init(ATOM0_CH1_P33_9, 50, 1000);        //¶æ»ú³õÊ¼»¯
-    pwm_init(ATOM0_CH7_P02_7, 17000, 1000);     //µç»ú³õÊ¼»¯
+    pwm_init(ATOM0_CH1_P33_9, 50, 1000);        //èˆµæœºåˆå§‹åŒ–
+    pwm_init(ATOM0_CH7_P02_7, 17000, 1000);     //ç”µæœºåˆå§‹åŒ–
 
-    bluetooth_ch9141_init();                    //À¶ÑÀ³õÊ¼»¯
-
-
-    adc_init(ADC0_CH4_A4, ADC_12BIT);           //×óË®Æ½µç¸Ğ³õÊ¼»¯
-    adc_init(ADC0_CH7_A7, ADC_12BIT);           //ÓÒË®Æ½
-    adc_init(ADC0_CH5_A5, ADC_12BIT);           //×ó´¹Ö±
-    adc_init(ADC0_CH6_A6, ADC_12BIT);           //ÓÒ´¹Ö±
+    bluetooth_ch9141_init();                    //è“ç‰™åˆå§‹åŒ–
 
 
-    ips200_init(IPS200_TYPE_PARALLEL8);         //ÆÁÄ»³õÊ¼»¯
+    adc_init(ADC0_CH4_A4, ADC_12BIT);           //å·¦æ°´å¹³ç”µæ„Ÿåˆå§‹åŒ–
+    adc_init(ADC0_CH7_A7, ADC_12BIT);           //å³æ°´å¹³
+    adc_init(ADC0_CH5_A5, ADC_12BIT);           //å·¦å‚ç›´
+    adc_init(ADC0_CH6_A6, ADC_12BIT);           //å³å‚ç›´
+
+
+    ips200_init(IPS200_TYPE_PARALLEL8);         //å±å¹•åˆå§‹åŒ–
     ips200_clear();
 
     Adc.Hori_Err_sum = 0;
@@ -216,7 +216,7 @@ int core0_main(void)
     dir_num = middle_dir_defa;
     speed   = speed_defa;
 
-    cpu_wait_event_ready();         // µÈ´ıËùÓĞºËĞÄ³õÊ¼»¯Íê±Ï
+    cpu_wait_event_ready();         // ç­‰å¾…æ‰€æœ‰æ ¸å¿ƒåˆå§‹åŒ–å®Œæ¯•
     while (TRUE)
     {
         
@@ -242,15 +242,15 @@ int core0_main(void)
             default:                        break;
         }
 
-        //´ıÓÅ»¯·â×°
+        //å¾…ä¼˜åŒ–å°è£…
         if(Adc.Hori_Err > 0.1)  {speed = 500;}
         else                    {speed = 1800;}
 
         loop_ready_control();
         dir_limit();
 
-        pwm_set_duty(ATOM0_CH1_P33_9,dir_num);          //¶æ»ú
-        pwm_set_duty(ATOM0_CH7_P02_7,1800);             //×ªËÙ£¬Ã»Ğ´»·
+        pwm_set_duty(ATOM0_CH1_P33_9,dir_num);          //èˆµæœº
+        pwm_set_duty(ATOM0_CH7_P02_7,1800);             //è½¬é€Ÿï¼Œæ²¡å†™ç¯
 
         ips_show();
         //bluetooth_ch9141_send_byte('a');
@@ -261,4 +261,4 @@ int core0_main(void)
 #pragma section all restore
 
 
-// **************************** ´úÂëÇøÓò ****************************
+// **************************** ä»£ç åŒºåŸŸ ****************************
