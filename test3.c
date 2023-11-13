@@ -99,10 +99,6 @@ void ips_show()
 
     ips200_show_string(0,160,"DirNum");
     ips200_show_int(60,160,dir_num,3);
-
-
-
-
 }
 
 //得到电感值
