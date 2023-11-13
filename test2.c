@@ -1,46 +1,46 @@
 /*********************************************************************************************************************
-* TC264 Opensourec Library ¼´£¨TC264 ¿ªÔ´¿â£©ÊÇÒ»¸ö»ùÓÚ¹Ù·½ SDK ½Ó¿ÚµÄµÚÈý·½¿ªÔ´¿â
-* Copyright (c) 2022 SEEKFREE Öð·É¿Æ¼¼
+* TC264 Opensourec Library å³ï¼ˆTC264 å¼€æºåº“ï¼‰æ˜¯ä¸€ä¸ªåŸºäºŽå®˜æ–¹ SDK æŽ¥å£çš„ç¬¬ä¸‰æ–¹å¼€æºåº“
+* Copyright (c) 2022 SEEKFREE é€é£žç§‘æŠ€
 *
-* ±¾ÎÄ¼þÊÇ TC264 ¿ªÔ´¿âµÄÒ»²¿·Ö
+* æœ¬æ–‡ä»¶æ˜¯ TC264 å¼€æºåº“çš„ä¸€éƒ¨åˆ†
 *
-* TC264 ¿ªÔ´¿â ÊÇÃâ·ÑÈí¼þ
-* Äú¿ÉÒÔ¸ù¾Ý×ÔÓÉÈí¼þ»ù½ð»á·¢²¼µÄ GPL£¨GNU General Public License£¬¼´ GNUÍ¨ÓÃ¹«¹²Ðí¿ÉÖ¤£©µÄÌõ¿î
-* ¼´ GPL µÄµÚ3°æ£¨¼´ GPL3.0£©»ò£¨ÄúÑ¡ÔñµÄ£©ÈÎºÎºóÀ´µÄ°æ±¾£¬ÖØÐÂ·¢²¼ºÍ/»òÐÞ¸ÄËü
+* TC264 å¼€æºåº“ æ˜¯å…è´¹è½¯ä»¶
+* æ‚¨å¯ä»¥æ ¹æ®è‡ªç”±è½¯ä»¶åŸºé‡‘ä¼šå‘å¸ƒçš„ GPLï¼ˆGNU General Public Licenseï¼Œå³ GNUé€šç”¨å…¬å…±è®¸å¯è¯ï¼‰çš„æ¡æ¬¾
+* å³ GPL çš„ç¬¬3ç‰ˆï¼ˆå³ GPL3.0ï¼‰æˆ–ï¼ˆæ‚¨é€‰æ‹©çš„ï¼‰ä»»ä½•åŽæ¥çš„ç‰ˆæœ¬ï¼Œé‡æ–°å‘å¸ƒå’Œ/æˆ–ä¿®æ”¹å®ƒ
 *
-* ±¾¿ªÔ´¿âµÄ·¢²¼ÊÇÏ£ÍûËüÄÜ·¢»Ó×÷ÓÃ£¬µ«²¢Î´¶ÔÆä×÷ÈÎºÎµÄ±£Ö¤
-* ÉõÖÁÃ»ÓÐÒþº¬µÄÊÊÏúÐÔ»òÊÊºÏÌØ¶¨ÓÃÍ¾µÄ±£Ö¤
-* ¸ü¶àÏ¸½ÚÇë²Î¼û GPL
+* æœ¬å¼€æºåº“çš„å‘å¸ƒæ˜¯å¸Œæœ›å®ƒèƒ½å‘æŒ¥ä½œç”¨ï¼Œä½†å¹¶æœªå¯¹å…¶ä½œä»»ä½•çš„ä¿è¯
+* ç”šè‡³æ²¡æœ‰éšå«çš„é€‚é”€æ€§æˆ–é€‚åˆç‰¹å®šç”¨é€”çš„ä¿è¯
+* æ›´å¤šç»†èŠ‚è¯·å‚è§ GPL
 *
-* ÄúÓ¦¸ÃÔÚÊÕµ½±¾¿ªÔ´¿âµÄÍ¬Ê±ÊÕµ½Ò»·Ý GPL µÄ¸±±¾
-* Èç¹ûÃ»ÓÐ£¬Çë²ÎÔÄ<https://www.gnu.org/licenses/>
+* æ‚¨åº”è¯¥åœ¨æ”¶åˆ°æœ¬å¼€æºåº“çš„åŒæ—¶æ”¶åˆ°ä¸€ä»½ GPL çš„å‰¯æœ¬
+* å¦‚æžœæ²¡æœ‰ï¼Œè¯·å‚é˜…<https://www.gnu.org/licenses/>
 *
-* ¶îÍâ×¢Ã÷£º
-* ±¾¿ªÔ´¿âÊ¹ÓÃ GPL3.0 ¿ªÔ´Ðí¿ÉÖ¤Ð­Òé ÒÔÉÏÐí¿ÉÉêÃ÷ÎªÒëÎÄ°æ±¾
-* Ðí¿ÉÉêÃ÷Ó¢ÎÄ°æÔÚ libraries/doc ÎÄ¼þ¼ÐÏÂµÄ GPL3_permission_statement.txt ÎÄ¼þÖÐ
-* Ðí¿ÉÖ¤¸±±¾ÔÚ libraries ÎÄ¼þ¼ÐÏÂ ¼´¸ÃÎÄ¼þ¼ÐÏÂµÄ LICENSE ÎÄ¼þ
-* »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò µ«ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷£¨¼´±¾ÉùÃ÷£©
+* é¢å¤–æ³¨æ˜Žï¼š
+* æœ¬å¼€æºåº“ä½¿ç”¨ GPL3.0 å¼€æºè®¸å¯è¯åè®® ä»¥ä¸Šè®¸å¯ç”³æ˜Žä¸ºè¯‘æ–‡ç‰ˆæœ¬
+* è®¸å¯ç”³æ˜Žè‹±æ–‡ç‰ˆåœ¨ libraries/doc æ–‡ä»¶å¤¹ä¸‹çš„ GPL3_permission_statement.txt æ–‡ä»¶ä¸­
+* è®¸å¯è¯å‰¯æœ¬åœ¨ libraries æ–‡ä»¶å¤¹ä¸‹ å³è¯¥æ–‡ä»¶å¤¹ä¸‹çš„ LICENSE æ–‡ä»¶
+* æ¬¢è¿Žå„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åº ä½†ä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£žç§‘æŠ€çš„ç‰ˆæƒå£°æ˜Žï¼ˆå³æœ¬å£°æ˜Žï¼‰
 *
-* ÎÄ¼þÃû³Æ          cpu0_main
-* ¹«Ë¾Ãû³Æ          ³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
-* °æ±¾ÐÅÏ¢          ²é¿´ libraries/doc ÎÄ¼þ¼ÐÄÚ version ÎÄ¼þ °æ±¾ËµÃ÷
-* ¿ª·¢»·¾³          ADS v1.9.4
-* ÊÊÓÃÆ½Ì¨          TC264D
-* µêÆÌÁ´½Ó          https://seekfree.taobao.com/
+* æ–‡ä»¶åç§°          cpu0_main
+* å…¬å¸åç§°          æˆéƒ½é€é£žç§‘æŠ€æœ‰é™å…¬å¸
+* ç‰ˆæœ¬ä¿¡æ¯          æŸ¥çœ‹ libraries/doc æ–‡ä»¶å¤¹å†… version æ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜Ž
+* å¼€å‘çŽ¯å¢ƒ          ADS v1.9.4
+* é€‚ç”¨å¹³å°          TC264D
+* åº—é“ºé“¾æŽ¥          https://seekfree.taobao.com/
 *
-* ÐÞ¸Ä¼ÇÂ¼
-* ÈÕÆÚ              ×÷Õß                ±¸×¢
+* ä¿®æ”¹è®°å½•
+* æ—¥æœŸ              ä½œè€…                å¤‡æ³¨
 * 2022-09-15       pudding            first version
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #pragma section all "cpu0_dsram"
-// ½«±¾Óï¾äÓë#pragma section all restoreÓï¾äÖ®¼äµÄÈ«¾Ö±äÁ¿¶¼·ÅÔÚCPU0µÄRAMÖÐ
+// å°†æœ¬è¯­å¥ä¸Ž#pragma section all restoreè¯­å¥ä¹‹é—´çš„å…¨å±€å˜é‡éƒ½æ”¾åœ¨CPU0çš„RAMä¸­
 
-// ±¾Àý³ÌÊÇ¿ªÔ´¿â¿Õ¹¤³Ì ¿ÉÓÃ×÷ÒÆÖ²»òÕß²âÊÔ¸÷ÀàÄÚÍâÉè
-// ±¾Àý³ÌÊÇ¿ªÔ´¿â¿Õ¹¤³Ì ¿ÉÓÃ×÷ÒÆÖ²»òÕß²âÊÔ¸÷ÀàÄÚÍâÉè
-// ±¾Àý³ÌÊÇ¿ªÔ´¿â¿Õ¹¤³Ì ¿ÉÓÃ×÷ÒÆÖ²»òÕß²âÊÔ¸÷ÀàÄÚÍâÉè
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç©ºå·¥ç¨‹ å¯ç”¨ä½œç§»æ¤æˆ–è€…æµ‹è¯•å„ç±»å†…å¤–è®¾
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç©ºå·¥ç¨‹ å¯ç”¨ä½œç§»æ¤æˆ–è€…æµ‹è¯•å„ç±»å†…å¤–è®¾
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç©ºå·¥ç¨‹ å¯ç”¨ä½œç§»æ¤æˆ–è€…æµ‹è¯•å„ç±»å†…å¤–è®¾
 
-// **************************** ´úÂëÇøÓò ****************************
+// **************************** ä»£ç åŒºåŸŸ ****************************
 
 static short    dir_num,speed,
                 
@@ -55,7 +55,7 @@ const short     middle_dir_defa=835,                    //angle1:1050;800;610   
 
 struct Adc_struct
 {
-    unsigned short  LeftHori,RightHori,                 //µç¸ÐÖµ
+    unsigned short  LeftHori,RightHori,                 //ç”µæ„Ÿå€¼
                     LeftVert,RightVert,
 
                     LeftHori_value,RightHori_value;
@@ -87,13 +87,13 @@ void ips_show()
 
 }
 
-//Ë®Æ½µç¸Ð²îºÍ±È
+//æ°´å¹³ç”µæ„Ÿå·®å’Œæ¯”
 void get_Adc_Err()
 {
-    Adc.Hori_Err = 1.0 * (Adc.LeftHori - Adc.RightHori)/(Adc.LeftHori + Adc.RightHori); //Ò»°ãÇé¿öÏÂ<0.5
+    Adc.Hori_Err = 1.0 * (Adc.LeftHori - Adc.RightHori)/(Adc.LeftHori + Adc.RightHori); //ä¸€èˆ¬æƒ…å†µä¸‹<0.5
 }
 
-//µÃµ½µç¸ÐÖµ
+//å¾—åˆ°ç”µæ„Ÿå€¼
 void get_Adc()
 {
     Adc.LeftHori  = adc_mean_filter_convert(ADC0_CH4_A4,8);
@@ -165,17 +165,17 @@ unsigned short right_curve_control()
 
 int core0_main(void)
 {
-    clock_init();                   // »ñÈ¡Ê±ÖÓÆµÂÊ<Îñ±Ø±£Áô>
-    debug_init();                   // ³õÊ¼»¯Ä¬ÈÏµ÷ÊÔ´®¿Ú
-    // ´Ë´¦±àÐ´ÓÃ»§´úÂë ÀýÈçÍâÉè³õÊ¼»¯´úÂëµÈ
+    clock_init();                   // èŽ·å–æ—¶é’Ÿé¢‘çŽ‡<åŠ¡å¿…ä¿ç•™>
+    debug_init();                   // åˆå§‹åŒ–é»˜è®¤è°ƒè¯•ä¸²å£
+    // æ­¤å¤„ç¼–å†™ç”¨æˆ·ä»£ç  ä¾‹å¦‚å¤–è®¾åˆå§‹åŒ–ä»£ç ç­‰
 
 
-    pwm_init(ATOM0_CH1_P33_9, 50, 1000);        //¶æ»ú³õÊ¼»¯
-    pwm_init(ATOM0_CH6_P02_6, 17000, 1000);     //µç»ú³õÊ¼»¯
+    pwm_init(ATOM0_CH1_P33_9, 50, 1000);        //èˆµæœºåˆå§‹åŒ–
+    pwm_init(ATOM0_CH6_P02_6, 17000, 1000);     //ç”µæœºåˆå§‹åŒ–
 
 
-    adc_init(ADC0_CH4_A4, ADC_12BIT);            //×óµç¸Ð³õÊ¼»¯
-    adc_init(ADC0_CH7_A7, ADC_12BIT);            //ÓÒ
+    adc_init(ADC0_CH4_A4, ADC_12BIT);            //å·¦ç”µæ„Ÿåˆå§‹åŒ–
+    adc_init(ADC0_CH7_A7, ADC_12BIT);            //å³
     adc_init(ADC0_CH5_A5, ADC_12BIT);
     adc_init(ADC0_CH6_A6, ADC_12BIT);
 
@@ -188,11 +188,11 @@ int core0_main(void)
     dir_num = middle_dir_defa;
     speed   = speed_defa;
 
-    // ´Ë´¦±àÐ´ÓÃ»§´úÂë ÀýÈçÍâÉè³õÊ¼»¯´úÂëµÈ
-    cpu_wait_event_ready();         // µÈ´ýËùÓÐºËÐÄ³õÊ¼»¯Íê±Ï
+    // æ­¤å¤„ç¼–å†™ç”¨æˆ·ä»£ç  ä¾‹å¦‚å¤–è®¾åˆå§‹åŒ–ä»£ç ç­‰
+    cpu_wait_event_ready();         // ç­‰å¾…æ‰€æœ‰æ ¸å¿ƒåˆå§‹åŒ–å®Œæ¯•
     while (TRUE)
     {
-        // ´Ë´¦±àÐ´ÐèÒªÑ­»·Ö´ÐÐµÄ´úÂë
+        // æ­¤å¤„ç¼–å†™éœ€è¦å¾ªçŽ¯æ‰§è¡Œçš„ä»£ç 
         
         get_Adc();
         get_Adc_Err();
@@ -217,15 +217,15 @@ int core0_main(void)
         }
         
         dir_limit();
-        pwm_set_duty(ATOM0_CH1_P33_9,dir_num);          //¶æ»ú
-        pwm_set_duty(ATOM0_CH6_P02_6,speed);            //×ªËÙ
+        pwm_set_duty(ATOM0_CH1_P33_9,dir_num);          //èˆµæœº
+        pwm_set_duty(ATOM0_CH6_P02_6,speed);            //è½¬é€Ÿ
         ips_show();
 
-        // ´Ë´¦±àÐ´ÐèÒªÑ­»·Ö´ÐÐµÄ´úÂë
+        // æ­¤å¤„ç¼–å†™éœ€è¦å¾ªçŽ¯æ‰§è¡Œçš„ä»£ç 
     }
 }
 
 #pragma section all restore
 
 
-// **************************** ´úÂëÇøÓò ****************************
+// **************************** ä»£ç åŒºåŸŸ ****************************
