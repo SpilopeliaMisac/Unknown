@@ -60,11 +60,12 @@ void core1_main(void)
     mt9v03x_init();
 
     int i=50,t=1;
-    unsigned char k;
-    unsigned char image_nor[MT9V03X_H][MT9V03X_W];
+    unsigned char   threshold,
+                    column_white_mid;
+    unsigned char   image_nor[ImageNor_H][ImageNor_W];
 
-    system_delay_ms(100);
-    k = Ostu_find();
+    // system_delay_ms(100);
+    // threshold = Ostu_find();
 
 
     // 此处编写用户代码 例如外设初始化代码等
@@ -73,11 +74,11 @@ void core1_main(void)
     {
         // 此处编写需要循环执行的代码
         
-        Image_Nor(image_nor,k);
+        column_white_mid = Image_handle(image_nor,100);
 
-        ips200_show_gray_image(1,1,mt9v03x_image,188,120,187,119,0);
-        ips200_show_gray_image(1,131,image_nor,188,120,187,119,0);
-        ips200_show_uint(1,123,k,5);
+        ips200_show_gray_image(1,1,mt9v03x_image,MT9V03X_W,MT9V03X_H,MT9V03X_W,MT9V03X_H,0);
+        ips200_show_int(1,123,column_white_mid,3);
+        ips200_show_gray_image(1,141,image_nor,ImageNor_W,ImageNor_H,ImageNor_W,ImageNor_H,0);
 
 
 
