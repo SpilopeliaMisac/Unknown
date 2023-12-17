@@ -55,7 +55,6 @@ unsigned char Ostu_find()
 		}  
 	}
 
-
 	return threshold;
 }
 
@@ -65,7 +64,7 @@ void Image_Nor(unsigned char image_nor[ImageNor_H][ImageNor_W],unsigned char thr
 	{
         for (int j = 0; j < ImageNor_W; j++)
 		{
-            image_nor[i][j] = (mt9v03x_image[i<<2][j<<2] > threshold )? 255:0;
+            image_nor[i][j] = (mt9v03x_image[i][j<<1] > threshold )? 255:0;
             // if(j==0 || j==93)
             //     image_nor[i][j] = 0;
         }
@@ -75,22 +74,22 @@ void Image_Nor(unsigned char image_nor[ImageNor_H][ImageNor_W],unsigned char thr
 //返回最大白列的首末项均值
 unsigned char Image_handle(unsigned char image_nor[ImageNor_H][ImageNor_W],unsigned char threshold)
 {
-	unsigned char*	image_nor_p = (unsigned char *)image_nor;
-	unsigned char*	mt9v03x_image_p = (unsigned char *)mt9v03x_image;
+	unsigned char*	image_nor_p = (unsigned char*)image_nor;
+	unsigned char*	mt9v03x_image_p = (unsigned char*)mt9v03x_image;
 	unsigned char 	column_white[ImageNor_W] = {0};
 
-	unsigned char 	i,j,
-					column_white_head = 0, column_white_end = 0;
+	unsigned char   column_white_head = 0, column_white_end = 0;
+	unsigned short  i,j;
 
 	//处理图像
 	for(i=0; i<ImageNor_S; i++)
 	{
-		//二值化 并压缩图像至0.5倍
-		*(image_nor_p + i) = ( *(mt9v03x_image_p + (i<<2)) > threshold)? 255:0;
+		//二值化，并压缩图像至0.5倍，mt9v03x_image应当是188*60
+		*(image_nor_p + i) = ( *(mt9v03x_image_p + (i<<1) ) > threshold)? 255:0;
 
 		//统计每列低于阈值的像素个数
 		j = i % ImageNor_W;
-		if( !(*(image_nor_p + i)) ) //if( *(mt9v03x_image_p + (i<<2)) < threshold)
+		if( (*(image_nor_p + i)) )
 		{
 			column_white[j]++;
 		}

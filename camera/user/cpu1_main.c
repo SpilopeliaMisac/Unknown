@@ -48,6 +48,12 @@
 
 
 // **************************** 代码区域 ****************************
+
+#define steering_mid_defa (610) //:690:610:520
+
+
+
+
 void core1_main(void)
 {
     disable_Watchdog();                     // 关闭看门狗
@@ -57,12 +63,21 @@ void core1_main(void)
     ips200_init(IPS200_TYPE_PARALLEL8);         //屏幕初始化
     ips200_clear();
 
+    pwm_init(ATOM0_CH1_P33_9, 50, 1000);        //舵机初始化
+
+    pwm_init(ATOM0_CH6_P02_6, 17000, 1000);     //电机初始化
+    pwm_init(ATOM0_CH7_P02_7, 17000, 1000);
+    pwm_init(ATOM0_CH4_P02_4, 17000, 1000);
+    pwm_init(ATOM0_CH5_P02_5, 17000, 1000);
+
     mt9v03x_init();
 
     int i=50,t=1;
     unsigned char   threshold,
                     column_white_mid;
     unsigned char   image_nor[ImageNor_H][ImageNor_W];
+
+    short Steering_val;
 
     // system_delay_ms(100);
     // threshold = Ostu_find();
@@ -74,13 +89,23 @@ void core1_main(void)
     {
         // 此处编写需要循环执行的代码
         
+        //Image_Nor(image_nor,100);
         column_white_mid = Image_handle(image_nor,100);
 
         ips200_show_gray_image(1,1,mt9v03x_image,MT9V03X_W,MT9V03X_H,MT9V03X_W,MT9V03X_H,0);
         ips200_show_int(1,123,column_white_mid,3);
         ips200_show_gray_image(1,141,image_nor,ImageNor_W,ImageNor_H,ImageNor_W,ImageNor_H,0);
 
+        if(!column_white_mid){column_white_mid = 46;}
+        Steering_val = -(3*(column_white_mid - 46)) + steering_mid_defa;
 
+        if(Steering_val > 680){Steering_val = 680;}
+        if(Steering_val < 530){Steering_val = 530;}
+
+        pwm_set_duty(ATOM0_CH1_P33_9,Steering_val);
+
+        pwm_set_duty(ATOM0_CH7_P02_7,2500);
+        pwm_set_duty(ATOM0_CH5_P02_5,2500);
 
         // 此处编写需要循环执行的代码
     }
